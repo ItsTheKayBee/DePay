@@ -7,21 +7,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
-    TextView registerClick;
+    TextView loginClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
-        registerClick = findViewById(R.id.register_click);
-        registerClick.setOnClickListener(new View.OnClickListener() {
+        loginClick = findViewById(R.id.login_click);
+        loginClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToRegister = new Intent(MainActivity.this, Register.class);
-                startActivity(goToRegister);
+                Intent goToLogin = new Intent(Register.this, MainActivity.class);
+                startActivity(goToLogin);
             }
         });
     }
