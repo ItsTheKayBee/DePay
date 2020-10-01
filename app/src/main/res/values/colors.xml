@@ -5,4 +5,5 @@
     <color name="colorAccent">#FFDE03</color>
     <color name="colorDarkAccent">#ecd016</color>
     <color name="magenta">#FF0266</color>
+    <color name="white">#FFF</color>
 </resources>
