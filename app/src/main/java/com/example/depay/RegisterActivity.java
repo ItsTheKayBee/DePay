@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     TextView loginClick;
 
@@ -20,7 +20,7 @@ public class Register extends AppCompatActivity {
         loginClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToLogin = new Intent(Register.this, MainActivity.class);
+                Intent goToLogin = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(goToLogin);
             }
         });
