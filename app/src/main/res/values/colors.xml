@@ -6,4 +6,7 @@
     <color name="colorDarkAccent">#ecd016</color>
     <color name="magenta">#FF0266</color>
     <color name="white">#FFF</color>
+    <color name="grey">#9E9E9E</color>
+    <color name="successGreen">#00E676</color>
+    <color name="failure">#F44336</color>
 </resources>
