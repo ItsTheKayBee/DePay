@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DePay</string>
+    <string-array name="payment_array">
+        <item>Debit card</item>
+        <item>Credit card</item>
+        <item>UPI</item>
+        <item>Net banking</item>
+        <item>Mobile Wallet</item>
+    </string-array>
 </resources>
