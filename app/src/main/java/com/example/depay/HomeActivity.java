@@ -1,13 +1,16 @@
 package com.example.depay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -49,5 +52,14 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navItemListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, new WalletFragment())
                 .commit();
+
+        FloatingActionButton sendButton = findViewById(R.id.send_button);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToPayScreen = new Intent(HomeActivity.this, PayActivity.class);
+                startActivity(goToPayScreen);
+            }
+        });
     }
 }
