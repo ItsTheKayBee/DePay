@@ -63,7 +63,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/colorAccent"
             android:src="@drawable/send_icon"
-            app:layout_anchor="@+id/bottom_navigation" />
+            app:layout_anchor="@id/bottom_bar" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
