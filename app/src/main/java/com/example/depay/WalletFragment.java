@@ -1,16 +1,41 @@
 package com.example.depay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class WalletFragment extends Fragment {
+
+    static TextView btcLocalText;
+
+    static void setBtcPrice(double localPrice) {
+        btcLocalText.setText(String.valueOf(localPrice));
+    }
 
     @Nullable
     @Override
@@ -26,6 +51,63 @@ public class WalletFragment extends Fragment {
                 startActivity(goToAddMoney);
             }
         });
+
+        btcLocalText = view.findViewById(R.id.btc_to_local);
+        double btc = getBTC();
+        new GetCurrencyData(getContext()).execute(btc);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("wallets");
+        db.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Currency currency = dataSnapshot.getValue(Currency.class);
+                Double bitcoin = currency.getBitcoin();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.v("login", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private static class GetCurrencyData extends AsyncTask<Double, Void, Void> {
+        Context context;
+
+        public GetCurrencyData(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(final Double[] btc) {
+            final double[] finalPrice = {0};
+            String url = "https://api.coindesk.com/v1/bpi/currentprice/INR.json";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject usd = response.getJSONObject("bpi").getJSONObject("INR");
+                                double rateInLocal = Double.parseDouble(usd.getString("rate").replaceAll(",", ""));
+                                finalPrice[0] = rateInLocal * btc[0];
+                                setBtcPrice(finalPrice[0]);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+            Volley.newRequestQueue(context).add(jsonObjectRequest);
+            return null;
+        }
     }
 }
