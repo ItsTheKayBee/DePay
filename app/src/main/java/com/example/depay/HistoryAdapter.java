@@ -1,5 +1,6 @@
 package com.example.depay;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String amountReceived = history.get(position).getAmountReceived();
-        String receivedFrom = history.get(position).getReceivedFrom();
-        String dateOfTransaction = history.get(position).getDateOfTransaction();
-        holder.receivedFrom.setText(receivedFrom);
-        holder.dateOfTransaction.setText(dateOfTransaction);
-        holder.amountReceived.setText(amountReceived);
+        Double amount = history.get(position).getAmount();
+        String with = history.get(position).getWith();
+        String timestamp = history.get(position).getTimestamp();
+        String status = history.get(position).getStatus();
+        String currency = history.get(position).getCurrency();
+        String fromto = "from";
+        String neg = "+";
+        if (status.equals("sent")) {
+            fromto = "to";
+            neg = "-";
+            holder.amount.setTextColor(Color.parseColor("#FF0000"));
+        }
+        holder.with.setText(status + " " + fromto + " " + with);
+        holder.timestamp.setText(timestamp);
+        holder.amount.setText(neg + amount + " " + currency);
     }
 
     @Override
@@ -42,13 +52,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView receivedFrom, amountReceived, dateOfTransaction;
+        TextView with, amount, timestamp;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            amountReceived = view.findViewById(R.id.money_history_text_view);
-            dateOfTransaction = view.findViewById(R.id.date_history);
-            receivedFrom = view.findViewById(R.id.user_receive_history_text_view);
+            amount = view.findViewById(R.id.money_history_text_view);
+            timestamp = view.findViewById(R.id.date_history);
+            with = view.findViewById(R.id.user_receive_history_text_view);
         }
     }
 }

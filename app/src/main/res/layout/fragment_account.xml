@@ -60,6 +60,7 @@
             android:id="@+id/acc_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="false"
             android:inputType="textEmailAddress"
             android:textColor="@android:color/black"
             tools:layout_editor_absoluteY="72dp" />
@@ -86,6 +87,7 @@
             android:id="@+id/acc_uname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="false"
             android:inputType="textEmailAddress"
             android:textColor="@android:color/black"
             tools:layout_editor_absoluteY="72dp" />

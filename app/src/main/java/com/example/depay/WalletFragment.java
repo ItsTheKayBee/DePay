@@ -2,6 +2,7 @@ package com.example.depay;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,9 +30,17 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class WalletFragment extends Fragment {
 
     static TextView btcLocalText;
+    TextView btcText;
+    TextView localText;
+    TextView ethText;
+    double bitcoin = 0;
+    double local = 0;
+    double ether = 0;
 
     static void setBtcPrice(double localPrice) {
         btcLocalText.setText(String.valueOf(localPrice));
@@ -53,27 +62,50 @@ public class WalletFragment extends Fragment {
         });
 
         btcLocalText = view.findViewById(R.id.btc_to_local);
-        double btc = getBTC();
-        new GetCurrencyData(getContext()).execute(btc);
+        btcText = view.findViewById(R.id.bitcoin_amount);
+        ethText = view.findViewById(R.id.ether_amount);
+        localText = view.findViewById(R.id.local_amount);
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String username = sharedPreferences.getString(RegisterActivity.Username, "");
+
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("wallets");
         db.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Currency currency = dataSnapshot.getValue(Currency.class);
-                Double bitcoin = currency.getBitcoin();
+                bitcoin = currency.getBitcoin();
+                setBitcoin(bitcoin);
+                local = currency.getLocal();
+                setLocal(local);
+                ether = currency.getEther();
+                setEther(ether);
+                new GetCurrencyData(getContext()).execute(bitcoin);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.v("login", "Failed to read value.", error.toException());
+                Log.v("login", "Failed", error.toException());
             }
         });
+    }
+
+    private void setEther(double ether) {
+        ethText.setText(String.valueOf(ether));
+    }
+
+    private void setBitcoin(double bitcoin) {
+        btcText.setText(String.valueOf(bitcoin));
+
+    }
+
+    private void setLocal(double local) {
+        localText.setText(String.valueOf(local));
     }
 
     private static class GetCurrencyData extends AsyncTask<Double, Void, Void> {

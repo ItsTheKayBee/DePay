@@ -1,6 +1,7 @@
 package com.example.depay;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextView loginClick;
     Button registerButton;
+    public static final String Username = "username";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,12 @@ public class RegisterActivity extends AppCompatActivity {
         String username = emailText.substring(0, emailText.indexOf('@'));
         User user = new User(emailText, pwdText);
         db.child(username).setValue(user);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Username, username);
+        editor.apply();
+
         Intent goToHome = new Intent(RegisterActivity.this, HomeActivity.class);
         startActivity(goToHome);
     }

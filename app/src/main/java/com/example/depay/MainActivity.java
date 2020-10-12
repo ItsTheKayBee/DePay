@@ -1,6 +1,7 @@
 package com.example.depay;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
+
+import static com.example.depay.RegisterActivity.Username;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void doLogin(String emailText, final String pwdText) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("users");
-        String username = emailText.substring(0, emailText.indexOf('@'));
+        final String username = emailText.substring(0, emailText.indexOf('@'));
         db.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
                     String pwd = user.getPassword();
                     if (pwd.equals(pwdText)) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Username, username);
+                        editor.apply();
                         Intent goToHome = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(goToHome);
                     } else {
@@ -78,4 +85,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

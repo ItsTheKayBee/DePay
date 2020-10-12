@@ -1,25 +1,40 @@
 package com.example.depay;
 
 public class History {
-    private String receivedFrom;
-    private String amountReceived;
-    private String dateOfTransaction;
+    private String with;
+    private double amount;
+    private String timestamp;
+    private String currency;
+    private String status;
 
-    public History(String receivedFrom, String amountReceived, String dateOfTransaction) {
-        this.receivedFrom = receivedFrom;
-        this.amountReceived = amountReceived;
-        this.dateOfTransaction = dateOfTransaction;
+    public History() {
     }
 
-    public String getReceivedFrom() {
-        return receivedFrom;
+    public History(double amount, String currency, String status, String timestamp, String with) {
+        this.with = with;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.currency = currency;
+        this.status = status;
     }
 
-    public String getAmountReceived() {
-        return amountReceived;
+    public String getCurrency() {
+        return currency;
     }
 
-    public String getDateOfTransaction() {
-        return dateOfTransaction;
+    public String getStatus() {
+        return status;
+    }
+
+    public String getWith() {
+        return with;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }
