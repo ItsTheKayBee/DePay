@@ -72,7 +72,7 @@ public class WalletFragment extends Fragment {
     public void onStart() {
         super.onStart();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        String username = sharedPreferences.getString(RegisterActivity.Username, "");
+        String username = sharedPreferences.getString("username", "");
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("wallets");
         db.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,7 +101,6 @@ public class WalletFragment extends Fragment {
 
     private void setBitcoin(double bitcoin) {
         btcText.setText(String.valueOf(bitcoin));
-
     }
 
     private void setLocal(double local) {

@@ -21,8 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-import static com.example.depay.RegisterActivity.Username;
-
 public class MainActivity extends AppCompatActivity {
 
     TextView registerClick;
@@ -64,10 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     User user = dataSnapshot.getValue(User.class);
                     String pwd = user.getPassword();
+                    String address = user.getAddress();
                     if (pwd.equals(pwdText)) {
                         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Username, username);
+                        editor.putString("username", username);
+                        editor.putString("address", address);
                         editor.apply();
                         Intent goToHome = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(goToHome);

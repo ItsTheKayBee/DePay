@@ -9,12 +9,13 @@ contract Payment {
         uint256 timestamp;
     }
     Transactions[] public transactions;
-    event Sent(address from, address to, uint amount);
+    event Sent(address from, address to, uint256 amount);
+    event Added(address sender, uint256 amount);
 
     mapping(address => uint256) balance;
 
-    function balanceOf(address _owner) external view returns (uint256) {
-        return balance[_owner];
+    function balanceOf() external view returns (uint256) {
+        return balance[msg.sender];
     }
 
     function getLength() external view returns (uint256) {
@@ -30,4 +31,10 @@ contract Payment {
         );
         emit Sent(msg.sender, _receiver, _amount);
     }
+    
+    function addCrypto(uint256 _amount) external {
+        balance[msg.sender] += _amount;
+        emit Added(msg.sender, _amount);
+    }
+    
 }

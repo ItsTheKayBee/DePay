@@ -19,8 +19,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextView loginClick;
     Button registerButton;
-    public static final String Username = "username";
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
     private void doRegister(String emailText, String pwdText) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("users");
         String username = emailText.substring(0, emailText.indexOf('@'));
-        User user = new User(emailText, pwdText);
+        String address = "0xcd34036ec8f7a886ac7bde0454b57818676373b6";
+        User user = new User(address, emailText, pwdText);
         db.child(username).setValue(user);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Username, username);
+        editor.putString("username", username);
+        editor.putString("address", address);
         editor.apply();
 
         Intent goToHome = new Intent(RegisterActivity.this, HomeActivity.class);
