@@ -53,7 +53,7 @@ public class AccountFragment extends Fragment {
         super.onStart();
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("users");
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        username = sharedPreferences.getString(RegisterActivity.Username, "");
+        username = sharedPreferences.getString("username", "");
 
         db.child(username).addValueEventListener(new ValueEventListener() {
             @Override

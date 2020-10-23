@@ -44,7 +44,7 @@ public class HistoryFragment extends Fragment {
         super.onStart();
         final ArrayList<History> histories = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        String username = sharedPreferences.getString(RegisterActivity.Username, "");
+        String username = sharedPreferences.getString("username", "");
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("transactions");
         db.child(username).addListenerForSingleValueEvent(new ValueEventListener() {

@@ -1,6 +1,7 @@
 package com.example.depay;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -9,14 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.http.HttpService;
+import java.math.BigInteger;
+import java.util.concurrent.CompletableFuture;
 
 public class EnterAmountPayActivity extends AppCompatActivity {
 
+    Web3Util web3Util = new Web3Util();
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,19 +50,15 @@ public class EnterAmountPayActivity extends AppCompatActivity {
             String wallet = walletDropdown.getText().toString();
             Log.v("print", payAmount + " " + currency + " " + wallet);
 
-            Web3j web3 = Web3j.build(new HttpService("http://192.168.1.105:8545"));
+            Payment_sol_Payment paymentContract = web3Util.loadContract();
             try {
-                Web3ClientVersion clientVersion = web3.web3ClientVersion().sendAsync().get();
-                if (!clientVersion.hasError()) {
-                    //Connected
-                    Log.v("success", "success");
-                } else {
-                    //Show Error
-                    Log.v("error", "error");
-                }
+//                CompletableFuture<TransactionReceipt> transactionReceipt = paymentContract.addCrypto(new BigInteger("100")).sendAsync();
+//                Log.v("dejavu", transactionReceipt.get() + "");
+                CompletableFuture<BigInteger> balance = paymentContract.balanceOf().sendAsync();
+                Log.v("dejavu", balance.get() + "");
+
             } catch (Exception e) {
-                //Show Error
-                Log.v("error", e.getMessage());
+                e.printStackTrace();
             }
         });
     }

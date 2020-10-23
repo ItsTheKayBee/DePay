@@ -82,42 +82,6 @@ public class Payment_sol_Payment extends Contract {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    @Deprecated
-    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Payment_sol_Payment(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Payment_sol_Payment(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
-    }
-
-    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
-        return new Payment_sol_Payment(contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
-        return new Payment_sol_Payment(contractAddress, web3j, transactionManager, contractGasProvider);
-    }
-
-    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
-        return deployRemoteCall(Payment_sol_Payment.class, web3j, credentials, contractGasProvider, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Payment_sol_Payment.class, web3j, credentials, gasPrice, gasLimit, BINARY, "");
-    }
-
-    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
-        return deployRemoteCall(Payment_sol_Payment.class, web3j, transactionManager, contractGasProvider, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Payment_sol_Payment.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "");
-    }
-
     public List<AddedEventResponse> getAddedEvents(TransactionReceipt transactionReceipt) {
         List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(ADDED_EVENT, transactionReceipt);
         ArrayList<AddedEventResponse> responses = new ArrayList<AddedEventResponse>(valueList.size());
@@ -184,6 +148,42 @@ public class Payment_sol_Payment extends Contract {
         EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
         filter.addSingleTopic(EventEncoder.encode(SENT_EVENT));
         return sentEventFlowable(filter);
+    }
+
+    @Deprecated
+    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Payment_sol_Payment(contractAddress, web3j, credentials, gasPrice, gasLimit);
+    }
+
+    @Deprecated
+    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Payment_sol_Payment(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
+    }
+
+    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+        return new Payment_sol_Payment(contractAddress, web3j, credentials, contractGasProvider);
+    }
+
+    public static Payment_sol_Payment load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+        return new Payment_sol_Payment(contractAddress, web3j, transactionManager, contractGasProvider);
+    }
+
+    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+        return deployRemoteCall(Payment_sol_Payment.class, web3j, credentials, contractGasProvider, BINARY, "");
+    }
+
+    @Deprecated
+    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+        return deployRemoteCall(Payment_sol_Payment.class, web3j, credentials, gasPrice, gasLimit, BINARY, "");
+    }
+
+    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+        return deployRemoteCall(Payment_sol_Payment.class, web3j, transactionManager, contractGasProvider, BINARY, "");
+    }
+
+    @Deprecated
+    public static RemoteCall<Payment_sol_Payment> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+        return deployRemoteCall(Payment_sol_Payment.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "");
     }
 
     public RemoteFunctionCall<TransactionReceipt> addCrypto(BigInteger _amount) {
